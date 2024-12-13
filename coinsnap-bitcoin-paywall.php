@@ -83,6 +83,7 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/class-coinsnap-bitcoin-payw
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-coinsnap-bitcoin-paywall-shortcode.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-coinsnap-bitcoin-paywall-settings.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-coinsnap-bitcoin-paywall-post-type.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-coinsnap-bitcoin-paywall-test.php';
 
 class CoinsnapBticoinPaywall {
 	public function __construct() {
@@ -221,7 +222,7 @@ class CoinsnapBticoinPaywall {
 		}
 		// Get and use the session ID
 		$session_id = session_id();
-		
+
                 // Debug incoming data
 		//error_log( print_r( $_POST, true ) );
 
@@ -280,7 +281,6 @@ class CoinsnapBticoinPaywall {
 
 	  return $this->process_native_content( $content, $has_access );
 	}
-
 
 	private function process_native_content( $content, $has_access ){
             if ( strpos( $content, '[paywall_payment' ) !== false ) {

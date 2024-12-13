@@ -106,4 +106,47 @@ class Coinsnap_Bitcoin_Paywall_CoinsnapHandler {
 			return $data;
 		}
 	}
+
+	/**
+	 * Test connection to Coinsnap API
+	 * @return array
+	 */
+	public function testConnection() {
+		try {
+			$response = wp_remote_get( "{$this->url}/api/v1/stores/" . $this->store_id, [
+				'headers' => [
+					'X-api-key'    => $this->api_key,
+				],
+			] );
+
+			// Check for WP errors
+			if ( is_wp_error( $response ) ) {
+				return [
+					'success' => false,
+					'message' => 'Connection failed: ' . $response->get_error_message()
+				];
+			}
+
+			// Check response code
+			$response_code = wp_remote_retrieve_response_code( $response );
+			if ( $response_code !== 200 ) {
+				return [
+					'success' => false,
+					'message' => "Connection failed. HTTP Error: {$response_code}"
+				];
+			}
+
+			// If we get here, connection is successful
+			return [
+				'success' => true,
+				'message' => 'Connection to Coinsnap successful!'
+			];
+
+		} catch ( Exception $e ) {
+			return [
+				'success' => false,
+				'message' => 'Connection error: ' . $e->getMessage()
+			];
+		}
+	}
 }
